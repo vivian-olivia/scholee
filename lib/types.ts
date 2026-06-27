@@ -1,6 +1,7 @@
 export type StudyLevel = 'highschool' | 's1' | 's2' | 's3' | 'gap'
 export type FundingType = 'full' | 'partial'
 export type ScholarshipStatus = 'active' | 'closed' | 'draft'
+export type ProviderType = 'university' | 'organization' | 'government'
 
 export interface Profile {
   id: string
@@ -31,6 +32,7 @@ export interface Scholarship {
   apply_url: string
   is_featured: boolean
   status: ScholarshipStatus
+  provider_type?: ProviderType
   created_at: string
 }
 

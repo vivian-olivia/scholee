@@ -3,28 +3,28 @@
 import { useState } from 'react'
 import { TbX } from 'react-icons/tb'
 import { createClient } from '@/lib/supabase/client'
-import type { Scholarship, FundingType, ScholarshipStatus } from '@/lib/types'
+import type { Scholarship, FundingType, ScholarshipStatus, ProviderType } from '@/lib/types'
 
 const LEVELS = ['highschool', 's1', 's2', 's3', 'gap']
 const LEVEL_LABELS: Record<string, string> = { highschool: 'SMA', s1: 'S1', s2: 'S2', s3: 'S3', gap: 'Gap Year' }
 
 type FormState = {
-  title: string; provider_name: string; amount: string; living_allowance: string
+  title: string; provider_name: string; provider_type: ProviderType; amount: string; living_allowance: string
   funding_type: FundingType; levels: string[]; countries: string; deadline: string
   duration: string; requirements: string; description: string; apply_url: string
   is_featured: boolean; status: ScholarshipStatus
 }
 
 const empty: FormState = {
-  title: '', provider_name: '', amount: '', living_allowance: '', funding_type: 'full',
+  title: '', provider_name: '', provider_type: 'organization', amount: '', living_allowance: '', funding_type: 'full',
   levels: [], countries: '', deadline: '', duration: '', requirements: '', description: '',
   apply_url: '', is_featured: false, status: 'active',
 }
 
 function toForm(s: Scholarship): FormState {
   return {
-    title: s.title, provider_name: s.provider_name, amount: s.amount ?? '',
-    living_allowance: s.living_allowance ?? '', funding_type: s.funding_type,
+    title: s.title, provider_name: s.provider_name, provider_type: s.provider_type ?? 'organization',
+    amount: s.amount ?? '', living_allowance: s.living_allowance ?? '', funding_type: s.funding_type,
     levels: s.levels, countries: s.countries.join(', '), deadline: s.deadline,
     duration: s.duration ?? '', requirements: s.requirements?.join('\n') ?? '',
     description: s.description ?? '', apply_url: s.apply_url,
@@ -57,7 +57,7 @@ export function CmsForm({ editing, onClose, onSaved }: Props) {
     }
     setSaving(true); setError('')
     const payload = {
-      title: form.title, provider_name: form.provider_name,
+      title: form.title, provider_name: form.provider_name, provider_type: form.provider_type,
       amount: form.amount || null, living_allowance: form.living_allowance || null,
       funding_type: form.funding_type, levels: form.levels,
       countries: form.countries.split(',').map(c => c.trim()).filter(Boolean),
@@ -92,12 +92,21 @@ export function CmsForm({ editing, onClose, onSaved }: Props) {
           {error && <p className="col-span-2 text-xs text-urgent bg-urgent-surface rounded-lg px-3 py-2">{error}</p>}
           <F label="Judul *"><input value={form.title} onChange={e => set('title', e.target.value)} className="input-base" /></F>
           <F label="Provider *"><input value={form.provider_name} onChange={e => set('provider_name', e.target.value)} className="input-base" /></F>
+          <F label="Sumber Beasiswa">
+            <select value={form.provider_type} onChange={e => set('provider_type', e.target.value as ProviderType)} className="input-base">
+              <option value="organization">Organisasi / Yayasan</option>
+              <option value="university">Universitas</option>
+              <option value="government">Pemerintah</option>
+            </select>
+          </F>
           <F label="Nilai Beasiswa"><input value={form.amount} onChange={e => set('amount', e.target.value)} className="input-base" /></F>
           <F label="Tunjangan Hidup"><input value={form.living_allowance} onChange={e => set('living_allowance', e.target.value)} className="input-base" /></F>
           <F label="Deadline *"><input type="date" value={form.deadline} onChange={e => set('deadline', e.target.value)} className="input-base" /></F>
           <F label="Durasi"><input value={form.duration} onChange={e => set('duration', e.target.value)} className="input-base" /></F>
           <F label="Negara (pisah koma)"><input value={form.countries} onChange={e => set('countries', e.target.value)} className="input-base" placeholder="Indonesia, Luar Negeri" /></F>
-          <F label="URL Pendaftaran *"><input value={form.apply_url} onChange={e => set('apply_url', e.target.value)} className="input-base" /></F>
+          <F label="URL Pendaftaran *" className="col-span-2">
+            <input value={form.apply_url} onChange={e => set('apply_url', e.target.value)} className="input-base" />
+          </F>
           <F label="Tipe Pendanaan">
             <select value={form.funding_type} onChange={e => set('funding_type', e.target.value as FundingType)} className="input-base">
               <option value="full">Beasiswa Penuh</option>

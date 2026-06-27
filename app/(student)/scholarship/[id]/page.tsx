@@ -63,7 +63,7 @@ export default async function ScholarshipDetailPage({ params }: Props) {
         />
       </header>
 
-      <main className="flex-1 pb-8">
+      <main className="flex-1 pb-32">
         {/* Provider + title */}
         <div className="px-4 pt-5 pb-4 border-b border-border">
           {scholarship.is_featured && (
