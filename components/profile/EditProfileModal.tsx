@@ -48,8 +48,8 @@ export function EditProfileModal({ profile, onClose, onSaved }: Props) {
       gpa: form.gpa ? parseFloat(form.gpa) : null,
       bio: form.bio || null,
     }
-    const { error: err } = await supabase.from('profiles').update(updates).eq('id', profile.id)
-    if (err) { setError('Gagal menyimpan. Coba lagi.'); setSaving(false); return }
+    const { error: err } = await supabase.from('profiles').upsert({ id: profile.id, ...updates })
+    if (err) { setError(err.message); setSaving(false); return }
     onSaved({ ...profile, ...updates } as Profile)
     onClose()
   }
