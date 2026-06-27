@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+:root {
+  /* Primary — Indigo */
+  --primary-dark: #2D2A8E;
+  --primary: #4B47C4;
+  --primary-light: #7B78E8;
+  --primary-tint: #C4C3F7;
+  --primary-surface: #EEEDFB;
+
+  /* Accent — Teal */
+  --accent: #0F9B8E;
+  --accent-surface: #E1F7F5;
+
+  /* Semantic */
+  --urgent: #E84040;
+  --urgent-surface: #FDEAEA;
+  --warning: #F5A623;
+  --warning-surface: #FEF4E0;
+  --success: #1A9E5C;
+  --success-surface: #E1F5EE;
+
+  /* Neutrals */
+  --text-primary: #1A1A2E;
+  --text-secondary: #4A4A6A;
+  --text-muted: #8A8AAA;
+  --border: #E2E2EF;
+  --border-strong: #C4C4DF;
+  --surface-0: #FFF8F0;
+  --surface-1: #F5F4FF;
+  --surface-2: #FFFFFF;
+}
+
+@theme inline {
+  /* Primary */
+  --color-primary-dark: var(--primary-dark);
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-tint: var(--primary-tint);
+  --color-primary-surface: var(--primary-surface);
+
+  /* Accent */
+  --color-accent: var(--accent);
+  --color-accent-surface: var(--accent-surface);
+
+  /* Semantic */
+  --color-urgent: var(--urgent);
+  --color-urgent-surface: var(--urgent-surface);
+  --color-warning: var(--warning);
+  --color-warning-surface: var(--warning-surface);
+  --color-success: var(--success);
+  --color-success-surface: var(--success-surface);
+
+  /* Neutrals */
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+
+  /* Typography */
+  --font-sans: var(--font-plus-jakarta-sans);
+}
+
+body {
+  background-color: var(--surface-0);
+  color: var(--text-primary);
+  font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
+}
+
+.input-base {
+  width: 100%;
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.input-base:focus {
+  border-color: var(--primary-tint);
+}
